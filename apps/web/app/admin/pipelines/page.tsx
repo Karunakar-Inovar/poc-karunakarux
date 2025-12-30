@@ -509,7 +509,7 @@ export default function PipelinesPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Pipeline</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{pipelineToDelete?.name}"? This action cannot be undone. 
+              Are you sure you want to delete &quot;{pipelineToDelete?.name}&quot;? This action cannot be undone. 
               All camera assignments and configurations for this pipeline will be permanently removed.
             </AlertDialogDescription>
           </AlertDialogHeader>

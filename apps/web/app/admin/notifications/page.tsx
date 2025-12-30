@@ -585,7 +585,7 @@ export default function NotificationsPage() {
               {/* Informational Box */}
               <div className="rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-3">
                 <p className="text-sm text-blue-900 dark:text-blue-200">
-                  Pipeline-Level Notifications: Alerts from cameras in each pipeline will use that pipeline's configured notification channels.
+                  Pipeline-Level Notifications: Alerts from cameras in each pipeline will use that pipeline&apos;s configured notification channels.
                 </p>
               </div>
             </div>
@@ -740,7 +740,7 @@ export default function NotificationsPage() {
               {/* Informational Box */}
               <div className="rounded-md bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-3">
                 <p className="text-sm text-blue-900 dark:text-blue-200">
-                  Pipeline-Level Notifications: Alerts from cameras in each pipeline will use that pipeline's configured notification channels.
+                  Pipeline-Level Notifications: Alerts from cameras in each pipeline will use that pipeline&apos;s configured notification channels.
                 </p>
               </div>
             </div>
@@ -775,7 +775,7 @@ export default function NotificationsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Notification Rule</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{ruleToDelete?.name}"? This action cannot be undone. 
+              Are you sure you want to delete &quot;{ruleToDelete?.name}&quot;? This action cannot be undone. 
               All alert routing configured for this rule will be permanently removed.
             </AlertDialogDescription>
           </AlertDialogHeader>

@@ -2178,7 +2178,7 @@ function Step6ReviewFinalize({ onBack, progress, onFinalize }: Step6Props) {
 
         <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-md">
           <p className="text-sm text-green-800 dark:text-green-300">
-            ✅ Your system is ready to launch! Click "Launch System" below to complete setup.
+            ✅ Your system is ready to launch! Click &quot;Launch System&quot; below to complete setup.
           </p>
         </div>
       </CardContent>

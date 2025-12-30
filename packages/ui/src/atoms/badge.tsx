@@ -14,6 +14,7 @@ cssInterop(Text, {
 
 export interface BadgeProps extends ViewProps, BadgeVariantProps {
   children?: React.ReactNode;
+  className?: string;
 }
 
 // Helper to wrap string/number children in Text components for React Native compatibility

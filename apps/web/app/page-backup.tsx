@@ -6,7 +6,7 @@ export default function HomePage() {
     <div style={{ padding: "20px" }}>
       <h1>Home Page Test</h1>
       <p>If you see this, the page is working!</p>
-      <p>Now let's test the SignIn component...</p>
+      <p>Now let&apos;s test the SignIn component...</p>
     </div>
   );
 }

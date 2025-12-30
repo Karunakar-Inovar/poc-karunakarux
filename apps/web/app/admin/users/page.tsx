@@ -376,7 +376,7 @@ export default function UsersPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete User</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{userToDelete?.name}"? This action cannot be undone. 
+              Are you sure you want to delete &quot;{userToDelete?.name}&quot;? This action cannot be undone. 
               All user data and access permissions will be permanently removed.
             </AlertDialogDescription>
           </AlertDialogHeader>

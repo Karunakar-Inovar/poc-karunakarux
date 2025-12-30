@@ -699,7 +699,7 @@ export default function CamerasPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Camera</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{selectedCamera?.name}"? This action cannot be undone. 
+              Are you sure you want to delete &quot;{selectedCamera?.name}&quot;? This action cannot be undone. 
               All associated recordings and configurations will be permanently removed.
             </AlertDialogDescription>
           </AlertDialogHeader>

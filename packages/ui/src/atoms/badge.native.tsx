@@ -17,6 +17,7 @@ export interface BadgeProps
     BadgeVariantProps {
   children?: React.ReactNode;
   textClassName?: string;
+  className?: string;
 }
 
 const Badge = React.forwardRef<React.ElementRef<typeof Pressable>, BadgeProps>(

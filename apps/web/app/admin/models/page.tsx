@@ -552,7 +552,7 @@ export default function ModelsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Model</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{selectedModel?.name}"? This action cannot be undone. 
+              Are you sure you want to delete &quot;{selectedModel?.name}&quot;? This action cannot be undone. 
               All camera assignments using this model will be removed.
             </AlertDialogDescription>
           </AlertDialogHeader>
