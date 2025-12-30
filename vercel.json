@@ -1,0 +1,7 @@
+{
+  "installCommand": "yarn install --frozen-lockfile",
+  "buildCommand": "yarn workspace web build",
+  "outputDirectory": "apps/web/.next"
+}
+
+

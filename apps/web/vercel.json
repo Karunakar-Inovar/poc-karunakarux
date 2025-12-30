@@ -1,0 +1,7 @@
+{
+  "installCommand": "cd ../.. && yarn install --frozen-lockfile",
+  "buildCommand": "cd ../.. && yarn workspace web build",
+  "outputDirectory": ".next"
+}
+
+
