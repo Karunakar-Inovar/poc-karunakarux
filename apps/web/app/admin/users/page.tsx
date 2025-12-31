@@ -296,7 +296,7 @@ export default function UsersPage() {
           <Input
             placeholder="Search users..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChangeText={setSearchQuery}
           className="pl-10 w-full"
           />
       </div>

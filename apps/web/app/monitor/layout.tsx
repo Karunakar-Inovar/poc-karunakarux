@@ -83,7 +83,7 @@ export default function MonitorLayoutWrapper({
 
   return (
     <MonitorLayout
-      currentPath={pathname}
+      currentPath={pathname ?? undefined}
       userName={user.name}
       alertCount={5}
       onLogout={handleLogout}

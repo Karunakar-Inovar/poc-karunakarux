@@ -9,6 +9,9 @@ cssInterop(Text, {
 
 export interface LabelProps extends TextProps {
   className?: string;
+  // Web compatibility: allow `htmlFor` usage alongside React Native `Text` rendering.
+  // On native it will be ignored; on web RNW may forward it to the underlying element.
+  htmlFor?: string;
 }
 
 const Label = React.forwardRef<React.ElementRef<typeof Text>, LabelProps>(

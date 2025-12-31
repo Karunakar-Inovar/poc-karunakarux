@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, type ViewProps, Text } from "react-native";
-import { cssInterop } from "nativewind";
+import { cssInterop } from "../utils/nativewind";
 import { cn } from "../../utils/cn";
 import { badgeVariants, type BadgeVariantProps } from "./badge-variants";
 

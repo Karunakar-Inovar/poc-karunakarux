@@ -323,7 +323,7 @@ export default function NotificationsPage() {
         <Input
           placeholder="Search notification rules..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChangeText={setSearchQuery}
           className="pl-10 w-full"
         />
       </div>
@@ -480,7 +480,7 @@ export default function NotificationsPage() {
                   id="rule-name"
                   placeholder="e.g., Critical Alerts to Admin"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChangeText={(name) => setFormData({ ...formData, name })}
                 />
               </div>
 
@@ -489,7 +489,9 @@ export default function NotificationsPage() {
                 <Label>Notification Channel</Label>
                 <Select
                   value={formData.channel}
-                  onValueChange={(value) => setFormData({ ...formData, channel: value })}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, channel: value as "email" | "sms" | "whatsapp" })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select channel" />
@@ -531,7 +533,13 @@ export default function NotificationsPage() {
                 <Label>Apply Rule To</Label>
                 <Select
                   value={formData.appliesTo}
-                  onValueChange={(value) => setFormData({ ...formData, appliesTo: value, selectedPipelines: value === "all" ? [] : formData.selectedPipelines })}
+                  onValueChange={(value) =>
+                    setFormData({
+                      ...formData,
+                      appliesTo: value as "all" | "specific",
+                      selectedPipelines: value === "all" ? [] : formData.selectedPipelines,
+                    })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select scope" />
@@ -575,7 +583,7 @@ export default function NotificationsPage() {
                   id="recipients"
                   placeholder="email@example.com"
                   value={formData.recipients}
-                  onChange={(e) => setFormData({ ...formData, recipients: e.target.value })}
+                  onChangeText={(recipients) => setFormData({ ...formData, recipients })}
                 />
                 <p className="text-xs text-muted-foreground">
                   Comma-separated email addresses
@@ -635,7 +643,7 @@ export default function NotificationsPage() {
                   id="edit-rule-name"
                   placeholder="e.g., Critical Alerts to Admin"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChangeText={(name) => setFormData({ ...formData, name })}
                 />
           </div>
 
@@ -730,7 +738,7 @@ export default function NotificationsPage() {
                   id="edit-recipients"
                   placeholder="email@example.com"
                   value={formData.recipients}
-                  onChange={(e) => setFormData({ ...formData, recipients: e.target.value })}
+                  onChangeText={(recipients) => setFormData({ ...formData, recipients })}
                 />
                 <p className="text-xs text-muted-foreground">
                   Comma-separated email addresses

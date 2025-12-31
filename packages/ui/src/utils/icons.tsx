@@ -60,7 +60,7 @@ export { GitBranch } from "lucide-react";
 export { Shield, Lock, Unlock, Key } from "lucide-react";
 
 // Time
-export { Clock, Calendar, Calendar as CalendarIcon, History, Timer } from "lucide-react";
+export { Clock, Calendar as CalendarIcon, History, Timer } from "lucide-react";
 
 // General UI
 export { 
@@ -227,10 +227,10 @@ export { Info, Info as InfoIcon };
 // Custom icons
 
 // Gift icon for "What's New" feature
-export const Gift: LucideIcon = (props: LucideProps) => {
-  const { color = "currentColor", size = 18, strokeWidth = 1.5, ...rest } = props;
-  return (
+export const Gift: LucideIcon = React.forwardRef<SVGSVGElement, LucideProps>(
+  ({ color = "currentColor", size = 18, strokeWidth = 1.5, ...rest }, ref) => (
     <svg
+      ref={ref}
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
@@ -248,13 +248,14 @@ export const Gift: LucideIcon = (props: LucideProps) => {
       <path d="M14.25,8.25v6c0,1.105-.895,2-2,2H5.75c-1.105,0-2-.895-2-2v-6" />
       <rect x="1.75" y="5.25" width="14.5" height="3" rx="1" ry="1" />
     </svg>
-  );
-};
+  )
+);
+Gift.displayName = "Gift";
 
-export const WebcamIcon: LucideIcon = (props: LucideProps) => {
-  const { color = "currentColor", size = 18, strokeWidth = 1.5, ...rest } = props;
-  return (
+export const WebcamIcon: LucideIcon = React.forwardRef<SVGSVGElement, LucideProps>(
+  ({ color = "currentColor", size = 18, strokeWidth = 1.5, ...rest }, ref) => (
     <svg
+      ref={ref}
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
@@ -270,8 +271,9 @@ export const WebcamIcon: LucideIcon = (props: LucideProps) => {
       <path d="M11.552,12.652l1.5,2.457c.305,.5-.054,1.141-.64,1.141H5.587c-.586,0-.945-.641-.64-1.141l1.501-2.456" />
       <circle cx="9" cy="7.5" r="5.75" />
     </svg>
-  );
-};
+  )
+);
+WebcamIcon.displayName = "WebcamIcon";
 
 // Re-export Icon component type for type safety
 export type { LucideIcon, LucideProps } from "lucide-react";

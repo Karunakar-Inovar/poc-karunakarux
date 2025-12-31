@@ -9,6 +9,12 @@ import { cn } from "../utils/cn";
 export interface TextInputProps extends RNTextInputProps {
   className?: string;
   variant?: "default" | "outline";
+  disabled?: boolean;
+  /**
+   * Web-friendly input type.
+   * Mapped to React Native props (`secureTextEntry`, `keyboardType`) so it stays cross-platform.
+   */
+  type?: "text" | "email" | "password" | "tel";
 }
 
 cssInterop(ReactNativeTextInput, {
@@ -23,13 +29,42 @@ const outlineClasses = "border-2 border-input bg-background focus-visible:border
 export const TextInput = React.forwardRef<
   React.ElementRef<typeof ReactNativeTextInput>,
   TextInputProps
->(({ className, variant = "default", ...props }, ref) => (
-  <ReactNativeTextInput
-    ref={ref}
-    className={cn(baseInputClasses, variant === "outline" && outlineClasses, className)}
-    {...props}
-  />
-));
+>(
+  (
+    {
+      className,
+      variant = "default",
+      type,
+      disabled,
+      secureTextEntry,
+      keyboardType,
+      editable,
+      ...props
+    },
+    ref
+  ) => {
+    const resolvedSecureTextEntry = secureTextEntry ?? type === "password";
+    const resolvedKeyboardType =
+      keyboardType ??
+      (type === "email"
+        ? "email-address"
+        : type === "tel"
+          ? "phone-pad"
+          : undefined);
+    const resolvedEditable = editable ?? !disabled;
+
+    return (
+      <ReactNativeTextInput
+        ref={ref}
+        className={cn(baseInputClasses, variant === "outline" && outlineClasses, className)}
+        secureTextEntry={resolvedSecureTextEntry}
+        keyboardType={resolvedKeyboardType}
+        editable={resolvedEditable}
+        {...props}
+      />
+    );
+  }
+);
 
 TextInput.displayName = "TextInput";
 

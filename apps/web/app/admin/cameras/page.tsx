@@ -382,7 +382,7 @@ export default function CamerasPage() {
         <Input
           placeholder="Search cameras..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChangeText={setSearchQuery}
           className="pl-10 w-full"
         />
       </div>
@@ -483,7 +483,7 @@ export default function CamerasPage() {
                 id="camera-name"
                 placeholder="e.g., Camera 7"
                 value={newCamera.name}
-                onChange={(e) => setNewCamera({ ...newCamera, name: e.target.value })}
+                onChangeText={(name) => setNewCamera({ ...newCamera, name })}
               />
             </div>
 
@@ -511,7 +511,7 @@ export default function CamerasPage() {
                 id="stream-url"
                 placeholder="rtsp://192.168.1.107"
                 value={newCamera.streamUrl}
-                onChange={(e) => setNewCamera({ ...newCamera, streamUrl: e.target.value })}
+                onChangeText={(streamUrl) => setNewCamera({ ...newCamera, streamUrl })}
               />
             </div>
 
@@ -597,7 +597,7 @@ export default function CamerasPage() {
                 id="edit-camera-name"
                 placeholder="e.g., Camera 7"
                 value={editCamera.name}
-                onChange={(e) => setEditCamera({ ...editCamera, name: e.target.value })}
+                onChangeText={(name) => setEditCamera({ ...editCamera, name })}
               />
             </div>
 
@@ -625,7 +625,7 @@ export default function CamerasPage() {
                 id="edit-stream-url"
                 placeholder="rtsp://192.168.1.107"
                 value={editCamera.streamUrl}
-                onChange={(e) => setEditCamera({ ...editCamera, streamUrl: e.target.value })}
+                onChangeText={(streamUrl) => setEditCamera({ ...editCamera, streamUrl })}
               />
             </div>
 

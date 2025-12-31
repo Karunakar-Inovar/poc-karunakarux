@@ -16,7 +16,7 @@ import {
 interface BottomNavItem {
   title: string;
   href: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentProps<typeof Icon>["icon"];
 }
 
 interface BottomNavProps {

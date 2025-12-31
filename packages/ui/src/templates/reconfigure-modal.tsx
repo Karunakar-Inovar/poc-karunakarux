@@ -16,7 +16,7 @@ export interface ReconfigureModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
-  trigger?: React.ReactNode;
+  trigger?: React.ReactElement;
   warning?: string;
 }
 

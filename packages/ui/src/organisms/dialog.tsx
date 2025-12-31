@@ -7,7 +7,7 @@ import {
   type ViewProps,
   type TextProps,
 } from "react-native";
-import { cssInterop } from "nativewind";
+import { cssInterop } from "../utils/nativewind";
 import { cn } from "../../utils/cn";
 
 cssInterop(View, {
@@ -74,9 +74,9 @@ const DialogTrigger: React.FC<TriggerProps> = ({ children, asChild = false }) =>
   if (!ctx) return children;
   const child = asChild ? React.Children.only(children) : children;
 
-  return React.cloneElement(child, {
+  return React.cloneElement(child as any, {
     onPress: (...args: any[]) => {
-      child.props?.onPress?.(...args);
+      (child as any).props?.onPress?.(...args);
       ctx.setOpen(true);
     },
   });
@@ -92,51 +92,50 @@ export interface DialogContentProps extends ViewProps {
   showCloseButton?: boolean;
 }
 
-const DialogContent: React.FC<DialogContentProps> = ({
-  className,
-  children,
-  showCloseButton = true,
-  ...props
-}) => {
-  const ctx = React.useContext(DialogContext);
-  if (!ctx) return null;
+const DialogContent = React.forwardRef<React.ElementRef<typeof View>, DialogContentProps>(
+  ({ className, children, showCloseButton = true, ...props }, ref) => {
+    const ctx = React.useContext(DialogContext);
+    if (!ctx) return null;
 
-  const handleClose = () => ctx.setOpen(false);
+    const handleClose = () => ctx.setOpen(false);
 
-  return (
-    <Modal
-      transparent
-      visible={ctx.open}
-      animationType="fade"
-      onRequestClose={handleClose}
-    >
-      <DialogOverlay>
-        <View
-          className={cn(
-            "mx-auto my-auto w-11/12 max-w-lg rounded-lg border border-border bg-background p-6 shadow-lg",
-            className
-          )}
-          {...props}
-        >
-          {children}
-          {showCloseButton ? (
-            <Pressable
-              className="absolute right-4 top-4 rounded-full bg-transparent p-2"
-              onPress={handleClose}
-              accessibilityRole="button"
-              accessibilityLabel="Close dialog"
-            >
-              <View className="h-4 w-4 items-center justify-center">
-                <View className="absolute h-4 w-0.5 rotate-45 bg-foreground" />
-                <View className="absolute h-4 w-0.5 -rotate-45 bg-foreground" />
-              </View>
-            </Pressable>
-          ) : null}
-        </View>
-      </DialogOverlay>
-    </Modal>
-  );
-};
+    return (
+      <Modal
+        transparent
+        visible={ctx.open}
+        animationType="fade"
+        onRequestClose={handleClose}
+      >
+        <DialogOverlay>
+          <View
+            ref={ref}
+            className={cn(
+              "mx-auto my-auto w-11/12 max-w-lg rounded-lg border border-border bg-background p-6 shadow-lg",
+              className
+            )}
+            {...props}
+          >
+            {children}
+            {showCloseButton ? (
+              <Pressable
+                className="absolute right-4 top-4 rounded-full bg-transparent p-2"
+                onPress={handleClose}
+                accessibilityRole="button"
+                accessibilityLabel="Close dialog"
+              >
+                <View className="h-4 w-4 items-center justify-center">
+                  <View className="absolute h-4 w-0.5 rotate-45 bg-foreground" />
+                  <View className="absolute h-4 w-0.5 -rotate-45 bg-foreground" />
+                </View>
+              </Pressable>
+            ) : null}
+          </View>
+        </DialogOverlay>
+      </Modal>
+    );
+  }
+);
+DialogContent.displayName = "DialogContent";
 
 const DialogHeader: React.FC<ViewProps> = ({ className, ...props }) => (
   <View className={cn("flex flex-col space-y-1.5", className)} {...props} />
@@ -167,9 +166,9 @@ const DialogClose: React.FC<TriggerProps> = ({ children, asChild = false }) => {
   if (!ctx) return children;
   const child = asChild ? React.Children.only(children) : children;
 
-  return React.cloneElement(child, {
+  return React.cloneElement(child as any, {
     onPress: (...args: any[]) => {
-      child.props?.onPress?.(...args);
+      (child as any).props?.onPress?.(...args);
       ctx.setOpen(false);
     },
   });

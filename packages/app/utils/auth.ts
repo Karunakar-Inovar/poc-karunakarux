@@ -80,7 +80,7 @@ export function isFirstTimeSetup(): boolean {
   const user = getCurrentUser();
   if (user?.role !== "admin") return false;
 
-  const org = getItem(STORAGE_KEYS.ORGANIZATION);
+  const org = getItem(STORAGE_KEYS.ORGANIZATION) as { setupCompleted?: boolean } | null;
   return !org || !org.setupCompleted;
 }
 
@@ -88,7 +88,7 @@ export function isFirstTimeSetup(): boolean {
  * Mark setup as completed
  */
 export function completeSetup(): void {
-  const org = getItem(STORAGE_KEYS.ORGANIZATION) || {};
+  const org = (getItem(STORAGE_KEYS.ORGANIZATION) as Record<string, unknown> | null) || {};
   setItem(STORAGE_KEYS.ORGANIZATION, {
     ...org,
     setupCompleted: true,
@@ -140,7 +140,7 @@ export function getRedirectPath(role: UserRole): string {
  * Helper: Check if setup has been completed
  */
 function hasCompletedSetup(): boolean {
-  const org = getItem(STORAGE_KEYS.ORGANIZATION);
+  const org = getItem(STORAGE_KEYS.ORGANIZATION) as { setupCompleted?: boolean } | null;
   return org?.setupCompleted === true;
 }
 

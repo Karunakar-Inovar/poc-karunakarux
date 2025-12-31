@@ -62,9 +62,9 @@ const SheetTrigger: React.FC<TriggerProps> = ({ children, asChild = false }) => 
   if (!ctx) return children;
   const child = asChild ? React.Children.only(children) : children;
 
-  return React.cloneElement(child, {
+  return React.cloneElement(child as any, {
     onPress: (...args: any[]) => {
-      child.props?.onPress?.(...args);
+      (child as any).props?.onPress?.(...args);
       ctx.setOpen(true);
     },
   });
@@ -75,9 +75,9 @@ const SheetClose: React.FC<TriggerProps> = ({ children, asChild = false }) => {
   if (!ctx) return children;
   const child = asChild ? React.Children.only(children) : children;
 
-  return React.cloneElement(child, {
+  return React.cloneElement(child as any, {
     onPress: (...args: any[]) => {
-      child.props?.onPress?.(...args);
+      (child as any).props?.onPress?.(...args);
       ctx.setOpen(false);
     },
   });

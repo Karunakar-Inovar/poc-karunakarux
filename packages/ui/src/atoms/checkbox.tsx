@@ -26,7 +26,7 @@ const Checkbox = React.forwardRef<React.ElementRef<typeof Pressable>, CheckboxPr
   ({ className, checked = false, indeterminate = false, onCheckedChange, accessibilityState, disabled, ...props }, ref) => {
     const nextState: AccessibilityState = {
       checked: indeterminate ? "mixed" : checked,
-      disabled,
+      disabled: disabled ?? undefined,
       ...accessibilityState,
     };
 

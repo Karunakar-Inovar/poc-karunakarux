@@ -84,7 +84,7 @@ export default function AdminLayoutWrapper({
 
   return (
     <AdminLayout
-      currentPath={pathname}
+      currentPath={pathname ?? undefined}
       userName={user.name}
       userEmail={user.email}
       whatsNewCount={3}

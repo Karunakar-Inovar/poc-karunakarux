@@ -48,7 +48,7 @@ export default function StakeholderLayoutWrapper({
 
   return (
     <StakeholderLayout
-      currentPath={pathname}
+      currentPath={pathname ?? undefined}
       userName={user.name}
       onLogout={handleLogout}
     >

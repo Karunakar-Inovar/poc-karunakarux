@@ -244,7 +244,7 @@ export default function PipelinesPage() {
         <Input
           placeholder="Search pipelines..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChangeText={setSearchQuery}
           className="pl-10 w-full"
         />
       </div>
@@ -364,7 +364,7 @@ export default function PipelinesPage() {
                 id="pipeline-name"
                 placeholder="e.g., Defect Detection Pipeline"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChangeText={(name) => setFormData({ ...formData, name })}
               />
             </div>
 
@@ -454,7 +454,7 @@ export default function PipelinesPage() {
                 <Input
                   id="edit-pipeline-name"
                   value={editFormData.name}
-                  onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
+                  onChangeText={(name) => setEditFormData({ ...editFormData, name })}
                 />
               </div>
 

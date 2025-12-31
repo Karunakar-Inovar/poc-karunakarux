@@ -25,6 +25,7 @@ export interface SliderProps extends Omit<ViewProps, "onLayout"> {
   step?: number;
   disabled?: boolean;
   onValueChange?: (value: number) => void;
+  onLayout?: ViewProps["onLayout"];
   trackClassName?: string;
   thumbClassName?: string;
 }

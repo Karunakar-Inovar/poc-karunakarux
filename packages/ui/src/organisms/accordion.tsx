@@ -65,7 +65,7 @@ const Accordion: React.FC<AccordionProps> = ({
       if (type === "single") {
         return normalizedValue === itemValue;
       }
-      return normalizedValue.includes(itemValue);
+      return (normalizedValue as string[]).includes(itemValue);
     };
 
     const setValue = (itemValue: string, open: boolean) => {
@@ -116,11 +116,15 @@ const AccordionItem = React.forwardRef<View, AccordionItemProps>(
 );
 AccordionItem.displayName = "AccordionItem";
 
-interface AccordionTriggerProps extends PressableProps {
+interface AccordionTriggerProps extends Omit<PressableProps, "children"> {
   value: string;
+  children: React.ReactNode;
 }
 
-const AccordionTrigger = React.forwardRef<Pressable, AccordionTriggerProps>(
+const AccordionTrigger = React.forwardRef<
+  React.ElementRef<typeof Pressable>,
+  AccordionTriggerProps
+>(
   ({ className, value, children, ...props }, ref) => {
     const ctx = React.useContext(AccordionContext);
     if (!ctx) {

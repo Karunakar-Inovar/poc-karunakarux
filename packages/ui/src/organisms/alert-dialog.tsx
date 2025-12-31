@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Modal, View, Text, type ViewProps, type TextProps } from "react-native";
-import { cssInterop } from "nativewind";
+import { cssInterop } from "../utils/nativewind";
 import { cn } from "../../utils/cn";
 
 cssInterop(View, {
@@ -67,9 +67,9 @@ const AlertDialogTrigger: React.FC<TriggerProps> = ({ children, asChild = false 
   if (!ctx) return children;
   const child = asChild ? React.Children.only(children) : children;
 
-  return React.cloneElement(child, {
+  return React.cloneElement(child as any, {
     onPress: (...args: any[]) => {
-      child.props?.onPress?.(...args);
+      (child as any).props?.onPress?.(...args);
       ctx.setOpen(true);
     },
   });
@@ -138,9 +138,9 @@ const AlertDialogAction: React.FC<TriggerProps> = ({ children, asChild = false }
   if (!ctx) return children;
   const child = asChild ? React.Children.only(children) : children;
 
-  return React.cloneElement(child, {
+  return React.cloneElement(child as any, {
     onPress: (...args: any[]) => {
-      child.props?.onPress?.(...args);
+      (child as any).props?.onPress?.(...args);
       ctx.setOpen(false);
     },
   });
@@ -151,9 +151,9 @@ const AlertDialogCancel: React.FC<TriggerProps> = ({ children, asChild = false }
   if (!ctx) return children;
   const child = asChild ? React.Children.only(children) : children;
 
-  return React.cloneElement(child, {
+  return React.cloneElement(child as any, {
     onPress: (...args: any[]) => {
-      child.props?.onPress?.(...args);
+      (child as any).props?.onPress?.(...args);
       ctx.setOpen(false);
     },
   });

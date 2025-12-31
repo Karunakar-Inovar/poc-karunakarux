@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Pressable, type PressableProps, Text } from "react-native";
-import { cssInterop } from "nativewind";
+import { cssInterop } from "../utils/nativewind";
 import { cn } from "../../utils/cn";
 import { buttonVariants, type ButtonVariantProps } from "./button-variants";
 
@@ -30,6 +30,9 @@ export interface ButtonProps
   children?: React.ReactNode;
   textClassName?: string;
   onClick?: (e?: any) => void;
+  className?: string;
+  type?: "button" | "submit" | "reset";
+  title?: string;
 }
 
 const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
@@ -129,18 +132,19 @@ const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>
         );
       }
       if (React.isValidElement(child)) {
+        const el = child as React.ReactElement<any>;
         if (child.type === Text) {
-          return React.cloneElement(child, {
+          return React.cloneElement(el, {
             className: cn(
               textColorClass,
-              child.props.className
+              el.props?.className
             ),
           } as any);
         }
         // Recursively process children
-        if (child.props.children) {
-          return React.cloneElement(child, {
-            children: React.Children.map(child.props.children, addTextColor),
+        if (el.props?.children) {
+          return React.cloneElement(el, {
+            children: React.Children.map(el.props.children, addTextColor),
           } as any);
         }
       }

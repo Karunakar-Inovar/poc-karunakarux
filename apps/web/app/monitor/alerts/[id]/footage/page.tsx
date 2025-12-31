@@ -194,11 +194,18 @@ function getMockAlertFootage(alertId: number): AlertFootage | null {
 
 export default function MonitorAlertFootagePage() {
   const router = useRouter();
-  const params = useParams<{ id: string }>();
+  const params = useParams<{ id?: string }>();
   const snackbar = useSnackbar();
 
-  const alertId = Number(params.id);
-  const alert = React.useMemo(() => getMockAlertFootage(alertId), [alertId]);
+  const idParam = params?.id;
+  const alertId = typeof idParam === "string" ? Number(idParam) : Number.NaN;
+  const isValidAlertId = !!idParam && Number.isFinite(alertId);
+  const safeAlertId = isValidAlertId ? alertId : 0;
+
+  const alert = React.useMemo(
+    () => (isValidAlertId ? getMockAlertFootage(safeAlertId) : null),
+    [isValidAlertId, safeAlertId]
+  );
 
   const totalSeconds = alert?.timelineSecondsTotal ?? 300;
 
@@ -210,16 +217,17 @@ export default function MonitorAlertFootagePage() {
   const [rangeEndSeconds, setRangeEndSeconds] = React.useState(90);
 
   React.useEffect(() => {
+    if (!isValidAlertId) return;
     // Reset defaults when navigating between ids
     setIsPlaying(false);
     setSpeed(1);
     setCursorSeconds(45);
     setRangeStartSeconds(30);
     setRangeEndSeconds(90);
-  }, [alertId]);
+  }, [isValidAlertId, safeAlertId]);
 
   React.useEffect(() => {
-    if (!isPlaying) return;
+    if (!isValidAlertId || !isPlaying) return;
     const id = window.setInterval(() => {
       setCursorSeconds((prev) => {
         const next = prev + speed;
@@ -252,6 +260,10 @@ export default function MonitorAlertFootagePage() {
   const handleQuickJump = (deltaSeconds: number) => {
     setCursorSeconds((prev) => clamp(prev + deltaSeconds, 0, totalSeconds));
   };
+
+  if (!isValidAlertId) {
+    return null;
+  }
 
   if (!alert) {
     return (

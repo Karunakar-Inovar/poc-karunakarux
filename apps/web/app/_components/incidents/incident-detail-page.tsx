@@ -30,7 +30,7 @@ import {
   CheckCircle,
   Clock,
   Camera,
-  Calendar,
+  CalendarIcon,
   Brain,
   FileText,
   Play,
@@ -408,8 +408,9 @@ export function IncidentDetailPage({
   const parseTimeToSeconds = (timeStr: string): number => {
     const parts = timeStr.split(":");
     if (parts.length === 2) {
-      const minutes = parseInt(parts[0], 10) || 0;
-      const seconds = parseInt(parts[1], 10) || 0;
+      // `noUncheckedIndexedAccess` makes `parts[i]` typed as `string | undefined`
+      const minutes = parseInt(parts[0] ?? "0", 10) || 0;
+      const seconds = parseInt(parts[1] ?? "0", 10) || 0;
       return minutes * 60 + seconds;
     }
     return 0;
@@ -539,11 +540,12 @@ export function IncidentDetailPage({
               <div className="absolute inset-0 z-20 pointer-events-none">
                 {effectiveIncident.objectsDetected.map((obj, index) => {
                   // Simulate bounding box positions (in real app, these would come from detection data)
+                  const fallbackPos = { left: "20%", top: "40%", width: "15%", height: "20%" };
                   const positions = [
-                    { left: "20%", top: "40%", width: "15%", height: "20%" },
+                    fallbackPos,
                     { left: "60%", top: "35%", width: "20%", height: "25%" },
                   ];
-                  const pos = positions[index] || positions[0];
+                  const pos = positions[index] ?? fallbackPos;
                   return (
                     <div
                       key={index}
@@ -677,7 +679,7 @@ export function IncidentDetailPage({
 
                 {/* Timestamp */}
                 <div className="flex items-center gap-2 pt-2 border-t border-border">
-                  <Icon icon={Calendar} className="h-4 w-4 text-muted-foreground" />
+                  <Icon icon={CalendarIcon} className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm text-muted-foreground">
                     {effectiveIncident.timestamp}
                   </span>

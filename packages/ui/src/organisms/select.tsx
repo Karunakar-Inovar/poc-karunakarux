@@ -59,7 +59,9 @@ const Select: React.FC<SelectProps> = ({
   const [selectedValue, setSelectedValue] = useControllableState<string | undefined>({
     value,
     defaultValue: defaultValue ?? "",
-    onChange: onValueChange,
+    onChange: (next) => {
+      if (typeof next === "string") onValueChange?.(next);
+    },
   });
 
   const [isOpen, setIsOpen] = useControllableState<boolean>({
@@ -115,8 +117,9 @@ const Select: React.FC<SelectProps> = ({
   );
 };
 
-interface SelectTriggerProps extends PressableProps {
+interface SelectTriggerProps extends Omit<PressableProps, "children"> {
   size?: "sm" | "default";
+  children: React.ReactNode;
 }
 
 const SelectTrigger = React.forwardRef<any, SelectTriggerProps>(
@@ -138,7 +141,7 @@ const SelectTrigger = React.forwardRef<any, SelectTriggerProps>(
       <Pressable
         ref={ref}
         accessibilityRole="button"
-        accessibilityState={{ expanded: ctx.open, disabled }}
+        accessibilityState={{ expanded: ctx.open, disabled: disabled ?? undefined }}
         className={cn(
           "flex h-10 w-full flex-row items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm",
           "ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
@@ -238,9 +241,10 @@ const SelectSeparator: React.FC<ViewProps> = ({ className, ...props }) => (
   <View className={cn("my-1 h-px bg-muted", className)} {...props} />
 );
 
-interface SelectItemProps extends PressableProps {
+interface SelectItemProps extends Omit<PressableProps, "children"> {
   value: string;
   disabled?: boolean;
+  children: React.ReactNode;
 }
 
 const SelectItem: React.FC<SelectItemProps> = ({ className, value, disabled, children, ...props }) => {

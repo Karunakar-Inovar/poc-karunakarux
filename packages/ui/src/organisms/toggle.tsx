@@ -36,14 +36,15 @@ const toggleVariants = cva(
 );
 
 export interface ToggleProps
-  extends Omit<PressableProps, "onPress">,
+  extends Omit<PressableProps, "onPress" | "children">,
     VariantProps<typeof toggleVariants> {
   pressed?: boolean;
   defaultPressed?: boolean;
   onPressedChange?: (pressed: boolean) => void;
+  children?: React.ReactNode;
 }
 
-const Toggle = React.forwardRef<Pressable, ToggleProps>(
+const Toggle = React.forwardRef<React.ElementRef<typeof Pressable>, ToggleProps>(
   (
     {
       className,
@@ -73,7 +74,7 @@ const Toggle = React.forwardRef<Pressable, ToggleProps>(
       <Pressable
         ref={ref}
         accessibilityRole="switch"
-        accessibilityState={{ checked: isPressed, disabled }}
+        accessibilityState={{ checked: isPressed, disabled: disabled ?? undefined }}
         className={cn(
           toggleVariants({ variant, size, state: isPressed ? "on" : "off", className }),
           disabled && "pointer-events-none"

@@ -260,7 +260,7 @@ export default function ModelsPage() {
         <Input
           placeholder="Search models by name or type..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChangeText={setSearchQuery}
           className="pl-10 w-full"
         />
       </div>
@@ -365,7 +365,7 @@ export default function ModelsPage() {
                 id="model-name"
                 placeholder="e.g., Object Detection"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChangeText={(name) => setFormData({ ...formData, name })}
               />
             </div>
 
@@ -464,7 +464,7 @@ export default function ModelsPage() {
                 id="edit-model-name"
                 placeholder="e.g., Object Detection"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChangeText={(name) => setFormData({ ...formData, name })}
               />
             </div>
 

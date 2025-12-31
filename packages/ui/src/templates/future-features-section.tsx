@@ -4,7 +4,8 @@ import { Button } from "../atoms/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../molecules/card";
 import { cn } from "../../utils/cn";
 
-export interface FutureFeaturesSectionProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface FutureFeaturesSectionProps {
+  className?: string;
   title?: string;
   description?: string;
   actions?: React.ReactNode;
@@ -20,10 +21,9 @@ export const FutureFeaturesSection = ({
     { label: "Bring Your Own Model", status: "coming-soon" },
     { label: "AI incident summaries", status: "beta" },
   ],
-  ...props
 }: FutureFeaturesSectionProps) => {
   return (
-    <Card className={cn("bg-gradient-to-br from-muted/30 to-muted/60", className)} {...props}>
+    <Card className={cn("bg-gradient-to-br from-muted/30 to-muted/60", className)}>
       <CardHeader>
         <div className="flex items-center gap-3">
           <Badge variant="outline">Roadmap</Badge>

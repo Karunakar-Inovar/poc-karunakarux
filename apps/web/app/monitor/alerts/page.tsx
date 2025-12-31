@@ -229,7 +229,14 @@ export default function AlertsPage() {
         <CardContent className="p-4 overflow-visible">
           <div className="flex flex-row items-center gap-4 flex-nowrap">
             <div className="flex-shrink-0">
-              <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value)} className="flex-row">
+              <ToggleGroup
+                type="single"
+                value={viewMode}
+                onValueChange={(value) => {
+                  if (typeof value === "string") setViewMode(value);
+                }}
+                className="flex-row"
+              >
                 <ToggleGroupItem value="timeline" className="px-4">
                   <Text className={viewMode === "timeline" ? "!text-white !dark:text-white" : ""}>Timeline</Text>
                 </ToggleGroupItem>

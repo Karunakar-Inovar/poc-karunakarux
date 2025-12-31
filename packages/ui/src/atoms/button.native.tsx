@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Pressable, type PressableProps, Text } from "react-native";
-import { cssInterop } from "nativewind";
+import { cssInterop } from "../utils/nativewind";
 import { cn } from "../../utils/cn";
 import { buttonVariants, type ButtonVariantProps } from "./button-variants";
 
@@ -29,10 +29,13 @@ export interface ButtonProps
     ButtonVariantProps {
   children?: React.ReactNode;
   textClassName?: string;
+  className?: string;
+  type?: "button" | "submit" | "reset";
+  title?: string;
 }
 
 const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
-  ({ className, variant, size, children, textClassName, ...props }, ref) => {
+  ({ className, variant, size, children, textClassName, type: _type, title: _title, ...props }, ref) => {
     const resolvedSize = size ?? "default";
     const content =
       typeof children === "string" ? (

@@ -11,7 +11,9 @@ cssInterop(Text, {
   className: "style",
 });
 
-export interface CardProps extends ViewProps {}
+export interface CardProps extends ViewProps {
+  className?: string;
+}
 
 const Card = React.forwardRef<React.ElementRef<typeof View>, CardProps>(
   ({ className, ...props }, ref) => (
@@ -27,7 +29,9 @@ const Card = React.forwardRef<React.ElementRef<typeof View>, CardProps>(
 );
 Card.displayName = "Card";
 
-export interface CardHeaderProps extends ViewProps {}
+export interface CardHeaderProps extends ViewProps {
+  className?: string;
+}
 
 const CardHeader = React.forwardRef<React.ElementRef<typeof View>, CardHeaderProps>(
   ({ className, ...props }, ref) => (
@@ -40,7 +44,9 @@ const CardHeader = React.forwardRef<React.ElementRef<typeof View>, CardHeaderPro
 );
 CardHeader.displayName = "CardHeader";
 
-export interface CardTitleProps extends ViewProps {}
+export interface CardTitleProps extends ViewProps {
+  className?: string;
+}
 
 const CardTitle = React.forwardRef<React.ElementRef<typeof Text>, CardTitleProps>(
   ({ className, children, ...props }, ref) => (
@@ -55,7 +61,9 @@ const CardTitle = React.forwardRef<React.ElementRef<typeof Text>, CardTitleProps
 );
 CardTitle.displayName = "CardTitle";
 
-export interface CardDescriptionProps extends ViewProps {}
+export interface CardDescriptionProps extends ViewProps {
+  className?: string;
+}
 
 const CardDescription = React.forwardRef<React.ElementRef<typeof Text>, CardDescriptionProps>(
   ({ className, children, ...props }, ref) => (
@@ -70,7 +78,9 @@ const CardDescription = React.forwardRef<React.ElementRef<typeof Text>, CardDesc
 );
 CardDescription.displayName = "CardDescription";
 
-export interface CardActionProps extends ViewProps {}
+export interface CardActionProps extends ViewProps {
+  className?: string;
+}
 
 const CardAction = React.forwardRef<React.ElementRef<typeof View>, CardActionProps>(
   ({ className, ...props }, ref) => (
@@ -79,7 +89,9 @@ const CardAction = React.forwardRef<React.ElementRef<typeof View>, CardActionPro
 );
 CardAction.displayName = "CardAction";
 
-export interface CardContentProps extends ViewProps {}
+export interface CardContentProps extends ViewProps {
+  className?: string;
+}
 
 const CardContent = React.forwardRef<React.ElementRef<typeof View>, CardContentProps>(
   ({ className, ...props }, ref) => (
@@ -88,7 +100,9 @@ const CardContent = React.forwardRef<React.ElementRef<typeof View>, CardContentP
 );
 CardContent.displayName = "CardContent";
 
-export interface CardFooterProps extends ViewProps {}
+export interface CardFooterProps extends ViewProps {
+  className?: string;
+}
 
 const CardFooter = React.forwardRef<React.ElementRef<typeof View>, CardFooterProps>(
   ({ className, ...props }, ref) => (

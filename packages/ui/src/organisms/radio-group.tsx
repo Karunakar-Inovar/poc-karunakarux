@@ -34,7 +34,9 @@ const RadioGroup = React.forwardRef<View, RadioGroupProps>(
     const [currentValue, setCurrentValue] = useControllableState<string | undefined>({
       value,
       defaultValue: defaultValue ?? "",
-      onChange: onValueChange,
+      onChange: (next) => {
+        if (typeof next === "string") onValueChange?.(next);
+      },
     });
 
     const ctx = React.useMemo(
@@ -56,13 +58,17 @@ const RadioGroup = React.forwardRef<View, RadioGroupProps>(
 );
 RadioGroup.displayName = "RadioGroup";
 
-interface RadioGroupItemProps extends PressableProps {
+interface RadioGroupItemProps extends Omit<PressableProps, "children"> {
   value: string;
   disabled?: boolean;
   label?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-const RadioGroupItem = React.forwardRef<Pressable, RadioGroupItemProps>(
+const RadioGroupItem = React.forwardRef<
+  React.ElementRef<typeof Pressable>,
+  RadioGroupItemProps
+>(
   ({ className, value, disabled, children, label, ...props }, ref) => {
     const ctx = React.useContext(RadioGroupContext);
     if (!ctx) {

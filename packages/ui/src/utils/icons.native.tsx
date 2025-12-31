@@ -92,7 +92,6 @@ export { Shield, Lock, Unlock, Key } from "lucide-react-native";
 // Time
 export {
   Clock,
-  Calendar,
   Calendar as CalendarIcon,
   History,
   Timer,

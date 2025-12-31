@@ -54,7 +54,11 @@ const ToggleGroup = React.forwardRef<View, ToggleGroupProps>(
           : type === "single"
           ? ""
           : [],
-      onChange: onValueChange as (val: string | string[]) => void,
+      onChange: (next) => {
+        if (typeof next === "string" || Array.isArray(next)) {
+          onValueChange?.(next);
+        }
+      },
     });
 
     const ctx = React.useMemo<ToggleGroupContextValue>(() => {
@@ -69,7 +73,7 @@ const ToggleGroup = React.forwardRef<View, ToggleGroupProps>(
         if (type === "single") {
           return normalizedValue === itemValue;
         }
-        return normalizedValue.includes(itemValue);
+        return (normalizedValue as string[]).includes(itemValue);
       };
 
       const setValue = (itemValue: string) => {
@@ -109,12 +113,16 @@ const ToggleGroup = React.forwardRef<View, ToggleGroupProps>(
 );
 ToggleGroup.displayName = "ToggleGroup";
 
-interface ToggleGroupItemProps extends PressableProps {
+interface ToggleGroupItemProps extends Omit<PressableProps, "children"> {
   value: string;
   disabled?: boolean;
+  children: React.ReactNode;
 }
 
-const ToggleGroupItem = React.forwardRef<Pressable, ToggleGroupItemProps>(
+const ToggleGroupItem = React.forwardRef<
+  React.ElementRef<typeof Pressable>,
+  ToggleGroupItemProps
+>(
   ({ className, value, disabled, children, ...props }, ref) => {
     const ctx = React.useContext(ToggleGroupContext);
     if (!ctx) {

@@ -22,7 +22,7 @@ import {
 interface MoreMenuItem {
   title: string;
   href: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentProps<typeof Icon>["icon"];
   description?: string;
 }
 

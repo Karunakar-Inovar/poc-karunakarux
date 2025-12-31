@@ -25,7 +25,7 @@ import {
   Filter,
   Download,
   Camera,
-  Calendar,
+  CalendarIcon,
   Brain,
   Plus,
 } from "ui/utils/icons";
@@ -298,7 +298,7 @@ export function IncidentsListPage({ mode }: { mode: IncidentsListMode }) {
               <Input
                 placeholder="Search incidents..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChangeText={setSearchQuery}
                 className="pl-10 w-full sm:w-64"
               />
             </div>
@@ -358,7 +358,7 @@ export function IncidentsListPage({ mode }: { mode: IncidentsListMode }) {
                           </div>
                           <div className="flex items-center gap-2">
                             <Icon
-                              icon={Calendar}
+                              icon={CalendarIcon}
                               className="h-4 w-4 text-muted-foreground"
                             />
                             <span className="text-sm text-muted-foreground">

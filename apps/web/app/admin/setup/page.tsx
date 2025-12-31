@@ -323,7 +323,7 @@ function Step1OrganizationDetails({ onNext, onComplete, initialData, refreshProg
     }
   };
 
-  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragActive(false);
     const file = event.dataTransfer.files?.[0];
@@ -332,12 +332,12 @@ function Step1OrganizationDetails({ onNext, onComplete, initialData, refreshProg
     }
   };
 
-  const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragActive(true);
   };
 
-  const handleDragLeave = (event: React.DragEvent<HTMLLabelElement>) => {
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragActive(false);
   };
@@ -1473,26 +1473,38 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
   };
 
   const togglePipelineExpanded = (pipelineId: string) => {
-    setPipelineChannels((prev) => ({
-      ...prev,
-      [pipelineId]: {
-        ...prev[pipelineId],
-        expanded: !prev[pipelineId]?.expanded,
-      },
-    }));
+    setPipelineChannels((prev) => {
+      const current = prev[pipelineId] ?? {
+        expanded: false,
+        channels: { email: false, sms: false, whatsapp: false, webhook: false, plc: false },
+      };
+      return {
+        ...prev,
+        [pipelineId]: {
+          ...current,
+          expanded: !current.expanded,
+        },
+      };
+    });
   };
 
   const togglePipelineChannel = (pipelineId: string, channelType: keyof PipelineChannelState[string]["channels"]) => {
-    setPipelineChannels((prev) => ({
-      ...prev,
-      [pipelineId]: {
-        ...prev[pipelineId],
-        channels: {
-          ...prev[pipelineId]?.channels,
-          [channelType]: !prev[pipelineId]?.channels?.[channelType],
+    setPipelineChannels((prev) => {
+      const current = prev[pipelineId] ?? {
+        expanded: false,
+        channels: { email: false, sms: false, whatsapp: false, webhook: false, plc: false },
+      };
+      return {
+        ...prev,
+        [pipelineId]: {
+          ...current,
+          channels: {
+            ...current.channels,
+            [channelType]: !current.channels[channelType],
+          },
         },
-      },
-    }));
+      };
+    });
   };
 
   const getEnabledChannelCount = (pipelineId: string) => {
@@ -1629,7 +1641,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="smtp.gmail.com:587"
                     value={channels.email.config.smtpServer}
-                    onChange={(e) => updateChannelConfig("email", "smtpServer", e.target.value)}
+                    onChangeText={(smtpServer) => updateChannelConfig("email", "smtpServer", smtpServer)}
                     className="mt-1"
                   />
                 </div>
@@ -1638,7 +1650,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="alerts@aegisvision.com"
                     value={channels.email.config.fromEmail}
-                    onChange={(e) => updateChannelConfig("email", "fromEmail", e.target.value)}
+                    onChangeText={(fromEmail) => updateChannelConfig("email", "fromEmail", fromEmail)}
                     className="mt-1"
                   />
                 </div>
@@ -1647,7 +1659,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="admin@company.com, ops@company.com"
                     value={channels.email.config.toEmails}
-                    onChange={(e) => updateChannelConfig("email", "toEmails", e.target.value)}
+                    onChangeText={(toEmails) => updateChannelConfig("email", "toEmails", toEmails)}
                     className="mt-1"
                   />
                 </div>
@@ -1669,7 +1681,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="Twilio, AWS SNS, etc."
                     value={channels.sms.config.provider}
-                    onChange={(e) => updateChannelConfig("sms", "provider", e.target.value)}
+                    onChangeText={(provider) => updateChannelConfig("sms", "provider", provider)}
                     className="mt-1"
                   />
                 </div>
@@ -1679,7 +1691,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                     type="password"
                     placeholder="••••••••"
                     value={channels.sms.config.apiKey}
-                    onChange={(e) => updateChannelConfig("sms", "apiKey", e.target.value)}
+                    onChangeText={(apiKey) => updateChannelConfig("sms", "apiKey", apiKey)}
                     className="mt-1"
                   />
                 </div>
@@ -1688,7 +1700,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="+1 555 123 4567, +1 555 987 6543"
                     value={channels.sms.config.phoneNumbers}
-                    onChange={(e) => updateChannelConfig("sms", "phoneNumbers", e.target.value)}
+                    onChangeText={(phoneNumbers) => updateChannelConfig("sms", "phoneNumbers", phoneNumbers)}
                     className="mt-1"
                   />
                 </div>
@@ -1711,7 +1723,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                     type="password"
                     placeholder="••••••••"
                     value={channels.whatsapp.config.apiKey}
-                    onChange={(e) => updateChannelConfig("whatsapp", "apiKey", e.target.value)}
+                    onChangeText={(apiKey) => updateChannelConfig("whatsapp", "apiKey", apiKey)}
                     className="mt-1"
                   />
                 </div>
@@ -1720,7 +1732,9 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="+1 555 123 4567"
                     value={channels.whatsapp.config.phoneNumbers}
-                    onChange={(e) => updateChannelConfig("whatsapp", "phoneNumbers", e.target.value)}
+                    onChangeText={(phoneNumbers) =>
+                      updateChannelConfig("whatsapp", "phoneNumbers", phoneNumbers)
+                    }
                     className="mt-1"
                   />
                 </div>
@@ -1742,7 +1756,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="https://api.example.com/alerts"
                     value={channels.webhook.config.url}
-                    onChange={(e) => updateChannelConfig("webhook", "url", e.target.value)}
+                    onChangeText={(url) => updateChannelConfig("webhook", "url", url)}
                     className="mt-1"
                   />
                 </div>
@@ -1751,7 +1765,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="Bearer token"
                     value={channels.webhook.config.authToken}
-                    onChange={(e) => updateChannelConfig("webhook", "authToken", e.target.value)}
+                    onChangeText={(authToken) => updateChannelConfig("webhook", "authToken", authToken)}
                     className="mt-1"
                   />
                 </div>
@@ -1773,7 +1787,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="192.168.1.50"
                     value={channels.plc.config.ipAddress}
-                    onChange={(e) => updateChannelConfig("plc", "ipAddress", e.target.value)}
+                    onChangeText={(ipAddress) => updateChannelConfig("plc", "ipAddress", ipAddress)}
                     className="mt-1"
                   />
                 </div>
@@ -1782,7 +1796,7 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="502"
                     value={channels.plc.config.port}
-                    onChange={(e) => updateChannelConfig("plc", "port", e.target.value)}
+                    onChangeText={(port) => updateChannelConfig("plc", "port", port)}
                     className="mt-1"
                   />
                 </div>
@@ -1791,7 +1805,9 @@ function Step4NotificationChannels({ onNext, onBack, notifications, pipelines, r
                   <Input
                     placeholder="STOP_LINE_1"
                     value={channels.plc.config.commandSequence}
-                    onChange={(e) => updateChannelConfig("plc", "commandSequence", e.target.value)}
+                    onChangeText={(commandSequence) =>
+                      updateChannelConfig("plc", "commandSequence", commandSequence)
+                    }
                     className="mt-1"
                   />
                 </div>
@@ -2025,7 +2041,7 @@ function Step5InviteUsers({ onNext, onBack, invites, refreshProgress }: Step5Pro
                   <Input
                     placeholder="John Doe"
                     value={user.fullName}
-                    onChange={(e) => updateUser(user.id, "fullName", e.target.value)}
+                    onChangeText={(fullName) => updateUser(user.id, "fullName", fullName)}
                   />
                 </div>
                 <div className="space-y-2">
@@ -2034,7 +2050,7 @@ function Step5InviteUsers({ onNext, onBack, invites, refreshProgress }: Step5Pro
                     type="email"
                     placeholder="john@company.com"
                     value={user.email}
-                    onChange={(e) => updateUser(user.id, "email", e.target.value)}
+                    onChangeText={(email) => updateUser(user.id, "email", email)}
                   />
                 </div>
               </div>

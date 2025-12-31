@@ -39,7 +39,6 @@ const Textarea = React.forwardRef<TextInput, TextareaProps>(
     const handleNativeChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
       const text = event.nativeEvent.text;
       onChange?.({ target: { value: text } });
-      props.onChange?.(event);
     };
 
     return (

@@ -16,7 +16,6 @@ const ButtonGroup = React.forwardRef<React.ElementRef<typeof View>, ButtonGroupP
   ({ className, direction = "horizontal", separated = false, ...props }, ref) => (
     <View
       ref={ref}
-      accessibilityRole="group"
       className={cn(
         "flex",
         direction === "vertical" ? "flex-col" : "flex-row",

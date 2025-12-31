@@ -25,7 +25,7 @@ export interface FalsePositiveModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (note: string) => void;
-  trigger?: React.ReactNode;
+  trigger?: React.ReactElement;
   cameraName?: string;
   defaultNote?: string;
 }

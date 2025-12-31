@@ -77,7 +77,7 @@ export function ForgotPassword({
   if (isSubmitted) {
     return (
       <Container {...containerProps}>
-        <View className="flex-1 px-6 py-8" style={{ maxWidth: "28rem", margin: "0 auto", width: "100%" }}>
+        <View className="flex-1 px-6 py-8 w-full max-w-md mx-auto">
           {/* Header */}
           <View className="flex-row items-center justify-between mb-6">
             <Text className="text-2xl font-bold text-foreground">
@@ -150,7 +150,7 @@ export function ForgotPassword({
 
   return (
     <Container {...containerProps}>
-      <View className="flex-1 px-6 py-8" style={{ maxWidth: "28rem", margin: "0 auto", width: "100%" }}>
+      <View className="flex-1 px-6 py-8 w-full max-w-md mx-auto">
         {/* Header */}
         <View className="flex-row items-center justify-between mb-6">
           <Text className="text-2xl font-bold text-foreground">

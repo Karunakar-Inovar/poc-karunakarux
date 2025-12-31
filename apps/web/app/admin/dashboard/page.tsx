@@ -76,6 +76,8 @@ export default function AdminDashboard() {
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + featureSlides.length) % featureSlides.length);
   };
+  
+  const activeSlide = featureSlides[currentSlide] ?? featureSlides[0]!;
 
   // Mock data for demonstration
   const cameraCount = setupData?.cameras?.length || 2;
@@ -147,15 +149,15 @@ export default function AdminDashboard() {
             
             <div className="flex items-center gap-4 flex-1">
               <div className="p-2.5 rounded-lg border bg-background shrink-0">
-                <Icon icon={featureSlides[currentSlide].icon} className="h-5 w-5 text-muted-foreground" />
+                <Icon icon={activeSlide.icon} className="h-5 w-5 text-muted-foreground" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
-                  <h3 className="font-semibold text-foreground">{featureSlides[currentSlide].title}</h3>
-                  <Badge variant="outline" className="text-xs">{featureSlides[currentSlide].badge}</Badge>
+                  <h3 className="font-semibold text-foreground">{activeSlide.title}</h3>
+                  <Badge variant="outline" className="text-xs">{activeSlide.badge}</Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  {featureSlides[currentSlide].description}
+                  {activeSlide.description}
                 </p>
               </div>
               <Button size="sm" variant="default" className="shrink-0">

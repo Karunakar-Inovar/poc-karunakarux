@@ -35,6 +35,7 @@ export interface TabsProps {
   onValueChange?: (value: string) => void;
   orientation?: "horizontal" | "vertical";
   activateOnFocus?: boolean;
+  className?: string;
   /** 
    * Visual style variant
    * - "default": Pill-style tabs with background
@@ -51,12 +52,15 @@ const Tabs: React.FC<TabsProps> = ({
   orientation = "horizontal",
   activateOnFocus = false,
   variant = "default",
+  className,
   children,
 }) => {
   const [currentValue, setCurrentValue] = useControllableState<TabsValue>({
     value,
     defaultValue: defaultValue ?? "",
-    onChange: onValueChange,
+    onChange: (next) => {
+      if (typeof next === "string") onValueChange?.(next);
+    },
   });
 
   const ctx = React.useMemo<TabsContextValue>(
@@ -70,7 +74,11 @@ const Tabs: React.FC<TabsProps> = ({
     [currentValue, setCurrentValue, orientation, activateOnFocus, variant]
   );
 
-  return <TabsContext.Provider value={ctx}>{children}</TabsContext.Provider>;
+  return (
+    <TabsContext.Provider value={ctx}>
+      <View className={className}>{children}</View>
+    </TabsContext.Provider>
+  );
 };
 
 interface TabsListProps extends ViewProps {
@@ -109,7 +117,10 @@ interface TabsTriggerProps extends PressableProps {
   disabled?: boolean;
 }
 
-const TabsTrigger = React.forwardRef<Pressable, TabsTriggerProps>(
+const TabsTrigger = React.forwardRef<
+  React.ElementRef<typeof Pressable>,
+  TabsTriggerProps
+>(
   ({ className, value: triggerValue, disabled = false, children, ...props }, ref) => {
     const ctx = React.useContext(TabsContext);
     if (!ctx) {

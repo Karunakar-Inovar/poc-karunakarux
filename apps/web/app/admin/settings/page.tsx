@@ -128,7 +128,7 @@ export default function SettingsPage() {
       });
 
       // Load organization data
-      const org = getItem(STORAGE_KEYS.ORGANIZATION);
+      const org = getItem(STORAGE_KEYS.ORGANIZATION) as Partial<OrganizationData> | null;
       if (org) {
         const orgDataValue = {
           name: org.name || "",
@@ -223,7 +223,7 @@ export default function SettingsPage() {
     }
   };
 
-  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragActive(false);
     const file = event.dataTransfer.files?.[0];
@@ -232,12 +232,12 @@ export default function SettingsPage() {
     }
   };
 
-  const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragActive(true);
   };
 
-  const handleDragLeave = (event: React.DragEvent<HTMLLabelElement>) => {
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragActive(false);
   };
@@ -808,9 +808,11 @@ export default function SettingsPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="mt-4">
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmReconfigure}>
-              Continue to Setup
+            <AlertDialogCancel asChild>
+              <Button variant="outline">Cancel</Button>
+            </AlertDialogCancel>
+            <AlertDialogAction asChild>
+              <Button onPress={handleConfirmReconfigure}>Continue to Setup</Button>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

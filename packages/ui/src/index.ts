@@ -1,3 +1,5 @@
+/// <reference path="./nativewind-cssinterop.d.ts" />
+
 export * from "./atoms/button";
 export * from "./atoms/input";
 export * from "./atoms/badge";

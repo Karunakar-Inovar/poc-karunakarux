@@ -319,14 +319,7 @@ export default function MonitorDashboard() {
             return (
               <div
                 key={alert.id}
-                className={`relative overflow-hidden rounded-2xl border bg-card group transition-all duration-300 ease-out ${borderClass}`}
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 2 },
-                  shadowOpacity: 0.05,
-                  shadowRadius: 8,
-                  elevation: 3,
-                }}
+                className={`relative overflow-hidden rounded-2xl border bg-card shadow-sm group transition-all duration-300 ease-out ${borderClass}`}
               >
                 {/* Gradient Background */}
                 <div
