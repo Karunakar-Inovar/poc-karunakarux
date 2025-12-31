@@ -28,6 +28,7 @@ export * from "./theme";
 
 // Icon utilities - re-export for convenience
 export * from "./utils/icons";
+export * as Icons from "./utils/icons";
 
 // Dark mode utilities (optional - components already have dark: classes)
 export * from "./utils/dark-mode";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import {
   Card,
   Button,
@@ -207,6 +207,8 @@ interface Camera {
   fps: number;
 }
 
+type InputSourceType = "camera" | "rtsp" | "image";
+
 export default function CamerasPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -214,15 +216,19 @@ export default function CamerasPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedCamera, setSelectedCamera] = useState<Camera | null>(null);
   const snackbar = useSnackbar();
+  const imageInputRef = useRef<HTMLInputElement>(null);
   
   // Form state for new camera
   const [newCamera, setNewCamera] = useState({
+    sourceType: "camera" as InputSourceType,
     name: "",
     location: "",
     streamUrl: "",
     fps: "30",
     resolution: "1080p",
     pipeline: "",
+    imageFile: null as File | null,
+    imagePreview: "",
   });
 
   // Form state for editing camera
@@ -258,13 +264,39 @@ export default function CamerasPage() {
     
     // Reset form
     setNewCamera({
+      sourceType: "camera",
       name: "",
       location: "",
       streamUrl: "",
       fps: "30",
       resolution: "1080p",
       pipeline: "",
+      imageFile: null,
+      imagePreview: "",
     });
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
+    }
+  };
+
+  const processImageFile = (file: File) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result as string;
+      setNewCamera((prev) => ({
+        ...prev,
+        imageFile: file,
+        imagePreview: base64String,
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      processImageFile(file);
+    }
   };
 
   const handleEditClick = (camera: Camera) => {
@@ -476,6 +508,36 @@ export default function CamerasPage() {
           </DialogHeader>
 
           <div className="space-y-4 py-4">
+            {/* Input Source Type */}
+            <div className="space-y-2">
+              <Label>Input Source Type</Label>
+              <Select
+                value={newCamera.sourceType}
+                onValueChange={(value) => {
+                  const next = value as InputSourceType;
+                  setNewCamera((prev) => ({
+                    ...prev,
+                    sourceType: next,
+                    streamUrl: next === "image" ? "" : prev.streamUrl,
+                    imageFile: next === "image" ? prev.imageFile : null,
+                    imagePreview: next === "image" ? prev.imagePreview : "",
+                  }));
+                  if (next !== "image" && imageInputRef.current) {
+                    imageInputRef.current.value = "";
+                  }
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Source Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="camera">Camera</SelectItem>
+                  <SelectItem value="rtsp">RTSP</SelectItem>
+                  <SelectItem value="image">Image</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
             {/* Camera Name */}
             <div className="space-y-2">
               <Label htmlFor="camera-name">Camera Name</Label>
@@ -504,51 +566,92 @@ export default function CamerasPage() {
               </Select>
             </div>
 
-            {/* Stream URL */}
-            <div className="space-y-2">
-              <Label htmlFor="stream-url">Stream URL</Label>
-              <Input
-                id="stream-url"
-                placeholder="rtsp://192.168.1.107"
-                value={newCamera.streamUrl}
-                onChangeText={(streamUrl) => setNewCamera({ ...newCamera, streamUrl })}
-              />
-            </div>
+            {/* Stream URL (Camera + RTSP) */}
+            {newCamera.sourceType !== "image" && (
+              <div className="space-y-2">
+                <Label htmlFor="stream-url">Stream URL</Label>
+                <Input
+                  id="stream-url"
+                  placeholder="rtsp://192.168.1.107"
+                  value={newCamera.streamUrl}
+                  onChangeText={(streamUrl) => setNewCamera({ ...newCamera, streamUrl })}
+                />
+              </div>
+            )}
+
+            {/* Image Upload (Image only) */}
+            {newCamera.sourceType === "image" && (
+              <div className="space-y-2">
+                <Label>Upload Image</Label>
+
+                <input
+                  ref={imageInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+
+                <div className="flex items-center gap-3">
+                  <Button variant="outline" onPress={() => imageInputRef.current?.click()}>
+                    Upload Image
+                  </Button>
+
+                  {newCamera.imageFile?.name ? (
+                    <span className="text-sm text-muted-foreground">
+                      {newCamera.imageFile.name}
+                    </span>
+                  ) : null}
+                </div>
+
+                {newCamera.imagePreview ? (
+                  <div className="mt-2 overflow-hidden rounded-lg border bg-muted/20">
+                    <img
+                      src={newCamera.imagePreview}
+                      alt="Uploaded preview"
+                      className="h-40 w-full object-contain bg-background"
+                    />
+                  </div>
+                ) : null}
+              </div>
+            )}
 
             {/* FPS and Resolution Row */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>FPS</Label>
-                <Select value={newCamera.fps} onValueChange={(value) => setNewCamera({ ...newCamera, fps: value })}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select FPS" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {fpsOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            {newCamera.sourceType !== "image" && (
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>FPS</Label>
+                  <Select value={newCamera.fps} onValueChange={(value) => setNewCamera({ ...newCamera, fps: value })}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select FPS" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {fpsOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              <div className="space-y-2">
-                <Label>Resolution</Label>
-                <Select value={newCamera.resolution} onValueChange={(value) => setNewCamera({ ...newCamera, resolution: value })}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Resolution" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {resolutionOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="space-y-2">
+                  <Label>Resolution</Label>
+                  <Select value={newCamera.resolution} onValueChange={(value) => setNewCamera({ ...newCamera, resolution: value })}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Resolution" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {resolutionOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Pipeline */}
             <div className="space-y-2">

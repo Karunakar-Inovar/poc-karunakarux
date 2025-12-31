@@ -393,8 +393,7 @@ export function IncidentsListPage({ mode }: { mode: IncidentsListMode }) {
                         />
                         View
                       </Button>
-                      {mode === "admin" &&
-                        incident.status !== "false_positive" &&
+                      {incident.status !== "false_positive" &&
                         incident.status !== "resolved" && (
                           <Button
                             variant="ghost"

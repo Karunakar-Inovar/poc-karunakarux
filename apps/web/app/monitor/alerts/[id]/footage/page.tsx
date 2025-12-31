@@ -236,7 +236,7 @@ export default function MonitorAlertFootagePage() {
       });
     }, 1000);
     return () => window.clearInterval(id);
-  }, [isPlaying, speed, totalSeconds]);
+  }, [isValidAlertId, isPlaying, speed, totalSeconds]);
 
   const cursorPct =
     totalSeconds > 0 ? clamp((cursorSeconds / totalSeconds) * 100, 0, 100) : 0;
@@ -272,10 +272,10 @@ export default function MonitorAlertFootagePage() {
           variant="ghost"
           size="sm"
           className="flex-row items-center"
-          onPress={() => router.push("/monitor/alerts")}
+          onPress={() => router.push("/monitor/incidents")}
         >
           <Icon icon={ArrowLeft} className="h-4 w-4 mr-2" />
-          Back to Alerts
+          Back to Incidents
         </Button>
 
         <Card>
@@ -294,53 +294,11 @@ export default function MonitorAlertFootagePage() {
         variant="ghost"
         size="sm"
         className="flex-row items-center w-fit"
-        onPress={() => router.push("/monitor/alerts")}
+        onPress={() => router.push("/monitor/incidents")}
       >
         <Icon icon={ArrowLeft} className="h-4 w-4 mr-2" />
-        Back to Alerts
+        Back to Incidents
       </Button>
-
-      {/* Top context bar (Figma-inspired) */}
-      <Card className={panel}>
-        <CardContent className="p-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div className="min-w-0">
-            <div className="text-sm text-muted-foreground">Viewing playback for</div>
-            <div className="text-base font-semibold text-foreground truncate">
-              {alert.title}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge
-              variant="outline"
-              className="border-amber-500/40 text-amber-700 dark:text-amber-300"
-            >
-              External notifications limited
-            </Badge>
-
-            <Select defaultValue="24h">
-              <SelectTrigger className="w-[120px]">
-                <SelectValue placeholder="Last 24h" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1h">Last 1h</SelectItem>
-                <SelectItem value="24h">Last 24h</SelectItem>
-                <SelectItem value="7d">Last 7d</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select defaultValue="all">
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="All Zones" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Zones</SelectItem>
-                <SelectItem value="zone">{alert.zone}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* 3-column workspace */}
       <div className="grid gap-4 lg:grid-cols-[320px,1fr,320px]">
