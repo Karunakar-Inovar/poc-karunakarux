@@ -33,3 +33,5 @@ yarn-debug.log
 .expo/
 
 yarn.lock
+.vercel
+.env*.local

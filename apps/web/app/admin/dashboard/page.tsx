@@ -218,7 +218,7 @@ export default function AdminDashboard() {
         />
       </div>
 
-      {/* Camera Feeds & AI Model Performance */}
+      {/* Camera Feeds & Recent Alerts */}
       <div className="grid gap-4 md:grid-cols-2">
         {/* Camera Feeds */}
         <Card>
@@ -249,78 +249,89 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        {/* AI Model Performance */}
+        {/* Recent Alerts (Top 3) */}
         <Card>
           <CardHeader>
-            <div className="flex items-center gap-2">
-              <Icon icon={Cpu} className="h-5 w-5 text-muted-foreground" />
-              <CardTitle className="text-base">AI Model Performance</CardTitle>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <Icon icon={Clock} className="h-5 w-5 text-muted-foreground" />
+                <CardTitle className="text-base">Recent Alerts</CardTitle>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onPress={() => router.push("/admin/incidents")}
+                className="shrink-0"
+              >
+                Go to Alerts
+                <Icon icon={ArrowRight} className="ml-2 h-4 w-4" />
+              </Button>
             </div>
-            <CardDescription>Detection accuracy and processing</CardDescription>
+            <CardDescription>Latest detection events and notifications</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            {aiModels.map((model) => (
-              <div key={model.name} className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{model.name}</span>
-                  <span className="text-sm text-muted-foreground">{model.accuracy}% accuracy</span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
+          <CardContent className="space-y-3">
+            {recentAlerts.slice(0, 3).map((alert) => (
+              <div
+                key={alert.id}
+                className="flex items-center justify-between p-3 rounded-lg border bg-card"
+              >
+                <div className="flex items-center gap-3">
                   <div
-                    className="h-full bg-primary rounded-full"
-                    style={{ width: `${model.accuracy}%` }}
+                    className={`h-2.5 w-2.5 rounded-full ${
+                      alert.severity === "critical"
+                        ? "bg-red-500"
+                        : alert.severity === "warning"
+                        ? "bg-yellow-500"
+                        : "bg-green-500"
+                    }`}
                   />
+                  <div>
+                    <p className="font-medium">{alert.title}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {alert.location} • {alert.time}
+                    </p>
+                  </div>
                 </div>
+                <Badge
+                  variant="outline"
+                  className={
+                    alert.severity === "critical"
+                      ? "text-red-600 border-red-600"
+                      : alert.severity === "warning"
+                      ? "text-yellow-600 border-yellow-600"
+                      : "text-blue-600 border-blue-600"
+                  }
+                >
+                  {alert.severity === "critical" ? "Critical" : alert.severity === "warning" ? "Warning" : "Info"}
+                </Badge>
               </div>
             ))}
           </CardContent>
         </Card>
       </div>
 
-      {/* Recent Alerts */}
+      {/* AI Model Performance */}
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Icon icon={Clock} className="h-5 w-5 text-muted-foreground" />
-            <CardTitle className="text-base">Recent Alerts</CardTitle>
+            <Icon icon={Cpu} className="h-5 w-5 text-muted-foreground" />
+            <CardTitle className="text-base">AI Model Performance</CardTitle>
           </div>
-          <CardDescription>Latest detection events and notifications</CardDescription>
+          <CardDescription>Detection accuracy and processing</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-3">
-          {recentAlerts.map((alert) => (
-            <div
-              key={alert.id}
-              className="flex items-center justify-between p-3 rounded-lg border bg-card"
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className={`h-2.5 w-2.5 rounded-full ${
-                    alert.severity === "critical"
-                      ? "bg-red-500"
-                      : alert.severity === "warning"
-                      ? "bg-yellow-500"
-                      : "bg-green-500"
-                  }`}
-                />
-                <div>
-                  <p className="font-medium">{alert.title}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {alert.location} • {alert.time}
-                  </p>
-                </div>
+        <CardContent className="space-y-4">
+          {aiModels.map((model) => (
+            <div key={model.name} className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">{model.name}</span>
+                <span className="text-sm text-muted-foreground">{model.accuracy}% accuracy</span>
               </div>
-              <Badge
-                variant="outline"
-                className={
-                  alert.severity === "critical"
-                    ? "text-red-600 border-red-600"
-                    : alert.severity === "warning"
-                    ? "text-yellow-600 border-yellow-600"
-                    : "text-blue-600 border-blue-600"
-                }
-              >
-                {alert.severity === "critical" ? "Critical" : alert.severity === "warning" ? "Warning" : "Info"}
-              </Badge>
+              <div className="h-2 bg-muted rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-primary rounded-full"
+                  style={{ width: `${model.accuracy}%` }}
+                />
+              </div>
             </div>
           ))}
         </CardContent>
